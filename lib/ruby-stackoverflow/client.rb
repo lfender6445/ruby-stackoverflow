@@ -30,7 +30,7 @@ module RubyStackoverflow
     attr_accessor :configuration
 
     def getr(url,klass, options={})
-      request :get, url,klass ,options
+      request :get, url, klass, options
     end
 
     def configure
@@ -41,6 +41,7 @@ module RubyStackoverflow
 
     def request(method, url, klass, options={})
       url = append_params_to_url(url, parse_options(options))
+      p url if ENV['DEBUG']
       response = HTTParty.send(method,url)
       parse_response(response, klass)
     end
@@ -58,7 +59,7 @@ module RubyStackoverflow
     end
 
     def key_params
-      {key: configuration.client_key, site: 'stackoverflow', access_token: configuration.access_token}
+      { key: configuration.client_key, site: 'stackoverflow', access_token: configuration.access_token }
     end
 
     def configuration
